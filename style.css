@@ -1,0 +1,258 @@
+/* 先消除游览器本身的边距   ？？？？？？？？？？？？？？？？？？？？？？*/
+*{
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+    /* 子元素有padding和border，或者至少有其一，并且需要给子元素设定100%宽度（或者50%宽度等等），这时候显然需要border-box。 */
+   
+}
+
+#player{        /* 参照定位的元素   必须加入position:relative   它本身相当于前辈元素，因为它里面还是含有其他的小盒子，而这些小盒子都是以这个大盒子为基准进行相关设置的（参照物是大盒子，是前辈元素，不再是浏览器了）   由此，便可以使用top、bottom、left、right来进行偏移定位了。*/
+    position: relative;
+    top: 125px;
+    left:200px;
+}
+
+/* 歌曲信息模块 */
+#player-content1{
+    position: absolute;
+    top:0px;
+    left:15px;
+    width:320px;/* 默認box-sizing:content-box;所以，可以單獨設置内邊距padding與border邊框 */
+    height:90px;
+    padding:0 20px 0 130px;
+    background: rgb(209, 226, 245);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /* transition过渡动画：设置top属性过渡，过渡时间0.3s,速度曲线为ease(逐渐变慢) */
+    /* 本模塊從上方過渡，過渡時間0.3秒，速度曲线为ease(逐渐变慢) */
+    transition:top 0.3s ease; 
+}
+
+#player-content1.active{
+    top:-85px;/* 动作就是往上走85px */
+}
+
+.music-name,    /* 現在兩個盒子重合 */
+.artist-name{
+    height: 20px;
+    margin-top:5px;
+    font-size:14px;
+}
+
+.artist-name{
+    font-size:12px;
+    color: #656565
+}
+
+.time{
+    font-size:12px;
+    height:15px;
+    margin: 5px 0;
+}
+
+.current-time{
+    float: left;
+}
+
+.total-time{
+    float: right;
+}
+
+.current-time,.total-time{
+    color: transparent;    /* 字體透明 */
+    font-size: 11px;
+    background-color: #e8f5ff;
+    border-radius: 10px;
+    transition: 0.3s ease all;  /* 全部樣式  0.3秒 緩動 */
+}
+
+.time.active .current-time, .time.active .total-time{
+    color: rgb(54, 127, 196);  /* 就是時間的字體顔色 */
+    background-color: transparent;
+}
+
+#s-area, #seek-bar{
+    position: relative; 
+    height: 4px;    /* 像div,p这种元素的宽度默认是最大程度撑满父级容器 */
+    border-radius: 4px;
+}
+
+#s-area{
+    background-color:#e8f5ff;
+    cursor: pointer;    /* 鼠標移上去是小手指 */
+}
+
+#ins-time{
+    position: absolute;
+    top: -29px;
+    color: #fff;        /* 小手 指的時候 上邊顯示的時間 */
+    font-size: 12px;
+    white-space: pre;     /* 空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签。 */
+    padding: 5px 6px;
+    border-radius: 4px;
+	display:none;        /*此元素不會顯示  */
+}
+
+#s-hover{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.2;       /* 设置一个div元素的透明度级别 */
+    z-index: 2;         /* 指定一个元素的堆叠顺序。 */
+}
+
+#ins-time, #s-hover{
+    background-color: #4b4d5c;/* 黑色的背景，灰白色的字體 */
+}
+
+#seek-bar{          /* 播放進度條 */
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background-color: rgb(54, 127, 196);
+    transition: 0.2s ease width;
+}
+
+/* -----------------控製模塊------------------- */
+#player-content2{
+    position: relative;
+    width:350px;        /* 因爲控製模塊比信息模塊要大30，先給他覆蓋住，之後設置相關動畫 */
+    height:90px;
+    background: rgb(192, 28, 28);
+    border-radius: 20px;
+    box-shadow: 10px 30px 80px #656565;
+            /*  水平  垂直  距離    顔色*/
+}
+
+/* 左侧封面图模块 */
+.music-imgs{
+    position: absolute;
+    top: -40px;
+    width: 100px;
+    height: 100px;
+    margin-left: 30px;
+    -webkit-transform: rotateZ(0);/* rotateZ()创建的旋转量由一个<angle>指定。如果该角度是正的，运动将是顺时针的; 如果是负值，则会逆时针旋转。 */
+    transform: rotateZ(0);
+    transition: 0.3s ease all;/* 全部样式  0.3s 缓动 */
+    box-shadow: 0 0 0 10px rgb(207, 38, 38);
+            /*  水平 垂直  blur(是否模糊)  spread(shadow的大小) 颜色*/
+     border-radius: 50%;   /*  把盒子变成圆的   用来放图片 */
+     overflow: hidden;/*设置当元素溢出时的处理方式   就比如，现在盒子变圆了  里边的“缓冲中...超过了边缘，这时，我们要把它隐藏了”*/
+}
+
+/* 左侧封面图模块添加了active类名 */
+.music-imgs.active{
+    top: -50px;
+    box-shadow: 0 0 0 4px #e8f5ff, 0 30px 50px -15px #afb7c1;
+}
+
+/* 里面的那个小白圈圈 */
+.music-imgs:before{
+     content: ''; 
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    margin: -10px auto 0 auto;
+    background-color: #d6dee7;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 2px #fff;
+    z-index: 2;/* 设置元素的堆叠顺序 */
+}
+
+/* 左侧封面图模块里的 图片div */
+.music-imgs .img{
+    display: block;/*显示为块状元素*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: cadetblue;
+}
+
+/* 封面图模块添加了active类名后，图片div的样式添加 */
+.music-imgs.active .img{
+    z-index: 1;
+    -webkit-animation: rotateAlbumArt 3s linear 0s infinite forwards;
+                /*     旋转专辑封面（名字） 完成一个周期所花的时间  动画的速度曲线  动画从何时开始   循环次数无限循环  动画完成后保持最后一个属性值*/
+            animation: rotateAlbumArt 3s linear 0s infinite forwards;
+}
+
+@-webkit-keyframes rotateAlbumArt
+{
+    0%{ -webkit-transform: rotateZ(0); transform: rotateZ(0); }
+    100%{ -webkit-transform: rotateZ(360deg); transform: rotateZ(360deg); }/* 0%相当于from  100%相当于to   动画效果是从零转到360*/
+}
+
+@keyframes rotateAlbumArt
+{
+    0%{ -webkit-transform: rotateZ(0); transform: rotateZ(0); }
+    100%{ -webkit-transform: rotateZ(360deg); transform: rotateZ(360deg); }
+}
+
+/* <!-- 歌曲缓冲时的提示文字 --> */
+#buffer-box 
+{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    height: 13px;
+    color: #1f1f1f;
+    font-size: 13px;
+    font-family: Helvetica;
+    text-align: center;/* 水平对齐  居中对齐 */
+    font-weight: bold;/* 粗体 */
+    line-height: 1;/* 行高 */
+    padding: 6px;
+    margin: -12px auto 0 auto;
+    background-color: rgba(255, 255, 255, 0.19);
+    opacity: 0;/* 透明度 */
+    z-index: 2;/* 通过这个数字决定盒子的重叠顺序 */
+}
+
+.music-imgs .img, #buffer-box
+{ transition: 0.1s linear all;
+}
+
+.music-imgs.buffering .img
+{
+    opacity: 0.25;
+}
+
+.music-imgs.buffering .img.active
+{
+    opacity: 0.8;
+    filter: blur(2px);/* filter 属性定义了元素(通常是<img>)的可视效果(例如：模糊与饱和度)。  blur()给图像设置高斯模糊。"radius"一值设定高斯函数的标准差，或者是屏幕上以多少像素融在一起， 所以值越大越模糊； */
+    -webkit-filter: blur(2px);
+}
+
+.music-imgs.buffering #buffer-box/* 名为music-img.buffering下的 id为buffer-box的部分 */
+{
+    opacity: 1;
+}
+
+.player-controls{
+    position: absolute;
+    top:20px;
+    left:150px;
+}
+
+
+.player-controls .btn{
+    float: left;
+    width:60px;
+    height:60px;
+    line-height: 60px;
+    font-size:24px;
+    color:#D6DEE7;
+  
+}

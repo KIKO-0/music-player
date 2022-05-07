@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐播放器</title>
+    <link rel="stylesheet" href="iconfont.css">     <!-- 外部样式链接 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="player">                 <!--relative  -->
+    
+        <!-- 歌曲信息模块   文字部分与进度条-->
+        <div id="player-content1">    <!-- absolute -->
+
+            <!-- 歌曲名 -->
+            <div class="music-name"></div>
+
+            <!-- 歌手名 -->
+            <div class="artist-name"></div>
+
+            <!-- 歌曲时间 -->
+            <div class="time">
+                <!-- 当前播放的时间 -->
+                <div class="current-time"></div>
+
+                <!-- 歌曲总时长 -->
+                <div class="total-time"></div>
+            </div>
+
+
+            <!-- 进度条   组件部分-->
+            <div id="s-area">           <!-- relative -->
+
+                <!-- 鼠标移动到进度条上，显示的时间信息 -->
+                <div id="ins-time"></div>
+
+                <!-- 鼠标移动到进度条上，进度条变暗部分-->
+                <div id="s-hover"></div>
+
+                <!-- 表示当前歌曲播放进度的蓝色进度条 -->
+                <div id="seek-bar"></div> <!-- relative -->
+            </div>
+
+        </div>
+
+        <!-- 控制模块 -->
+        <div id="player-content2">
+
+            <!-- 左侧歌曲封面旋转模块 -->
+            <div class="music-imgs">
+
+                <!-- 封面图 -->
+                <div class="img"></div>
+
+                <!-- 歌曲缓冲时的提示文字 -->
+                <div id="buffer-box">缓冲…</div>
+
+            </div>
+
+
+            <!-- 右侧歌曲操作模块 -->
+            <div class="player-controls">
+                <!-- 上一首按钮   里边这个字符是一个小方格-->
+                <div class="btn prev iconfont" ><img src="picture/上一首.png" alt="上一首"></div>
+
+                <!-- 暂停/播放 按钮 -->
+                <div class="btn play-pause icon-jiediankaishi iconfont">&#xe602;停</div>
+
+                <!-- 下一首按钮 -->
+                <div class="btn next iconfont"><img src="picture/下一首.png" alt="下一首"></div>
+
+            </div>
+
+        </div>
+        
+    </div>
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="index.js"></script>
+ 
+</body>
+</html>
